@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: nest-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: kithu  # Set your MySQL root password here
+      MYSQL_DATABASE: nest  # Set your database name here
+    ports:
+      - "6033:3306"
+    networks:
+      - nest-network
+    volumes:
+      - nest-mysql-data:/var/lib/mysql
+
+networks:
+  nest-network:
+
+volumes:
+  nest-mysql-data:
+
