@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: kithu  # Set your MySQL root password here
       MYSQL_DATABASE: nest  # Set your database name here
     ports:
-      - "6033:3306"
+      - "3000:3306"
     networks:
       - nest-network
     volumes:

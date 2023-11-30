@@ -21,4 +21,7 @@ export class PrismaService {
   constructor() {
     this.prisma = new PrismaClient();
   }
+
+ 
+  
 }

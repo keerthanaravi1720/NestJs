@@ -1,35 +1,14 @@
-// import { Controller, Body, Post } from '@nestjs/common';
-
-// // @Controller('user')
-// // export class UserController {}
-
-// import { PrismaClient } from '@prisma/client';
-// import { CreateUserDto } from './create-user.dto';
-
-// @Controller('users')
-// export class UserController {
-//   constructor(private prisma: PrismaClient) {}
-
-//   @Post('register')
-//   async createUser(@Body() createUserDto: CreateUserDto) {
-//     const user = await this.prisma.user.create({
-//       data: createUserDto,
-//     });
-//     return user;
-//   }
-// }
 
 
 
-// src/user/user.controller.ts
-
-
-
-import { Controller, Post, Body, Get, Req } from '@nestjs/common';
+import { Controller, Post, Body, Get, Req , UseGuards  } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Request } from 'express';
 import { UnauthorizedException } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
+import { JwtAuthGuard } from 'src/jwt/auth.guard';
+import AuthRequest from 'src/jwt/auth-request.interface';
+
 
 
 
@@ -42,18 +21,7 @@ export class UserController {
     return this.userService.createUser(userData);
   }
 
-//   @Post('login')
-//   async loginUser(@Body() loginData) {
-//     const { email, password } = loginData;
-//     return this.userService.loginUser(email, password);
-//   }
 
-// @Post('login')
-// async loginUser(@Body() loginData) {
-//   const { email, password } = loginData;
-//   const result = await this.userService.loginUser(email, password);
-//   return result;
-// }
 
 @Post('login')
 async loginUser(@Body() loginData) {
@@ -62,6 +30,9 @@ async loginUser(@Body() loginData) {
   return { token };
 }
 
+
+
+// jwtguard//
 
 @Get('profile')
 async getUserProfile(@Req() request: Request) {
@@ -89,6 +60,21 @@ async getUserProfile(@Req() request: Request) {
   return user;
 }
 
+
+
+
+
+//authguard//
+
+@Get("auth-profile")
+@UseGuards(JwtAuthGuard)
+async getAuthUserProfile(@Req() request: AuthRequest) {
+  const user = await this.userService.getUserById(request.user.id);
+  return user;
 }
+
+}
+
+
 
 
